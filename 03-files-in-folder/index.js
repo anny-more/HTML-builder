@@ -9,7 +9,7 @@ fs.readdir(pathToFile, {withFileTypes: true}, (err, files) => {
     if (file.isFile()) {
       fs.stat(`${pathToFile}/${file.name}`, (err, stats) => {
         if (err) throw err;
-        console.log(`${file.name} - ${file.name.split('.')[1]} - ${stats.size}`);
+        console.log(`${file.name.split('.')[0]} - ${file.name.split('.')[1]} - ${stats.size}`);
       });
     }
   }

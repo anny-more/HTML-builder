@@ -46,28 +46,23 @@ fs.readdir(path.join(__dirname, 'components'), {withFileTypes: true}, (err, file
   }
 });
 
-fsPromises.copyFile(path.join(__dirname, 'template.html'), path.join(__dirname, 'project-dist', 'index.html'));
+if (!path.join(__dirname, 'project-dist', 'index.html')) {
+ fsPromises.copyFile(path.join(__dirname, 'template.html'), path.join(__dirname, 'project-dist', 'index.html'));
+}
 
 
 fs.readFile(path.join(__dirname, 'project-dist', 'index.html'), 'utf-8', function (err, data) {
   if (err)
     return console.log(err);
 
-  console.log("File content before replace:");
-  //console.log(data);
-
   for (let i = 0; i < arr.length; i++) {
     fs.readFile(path.join(__dirname, 'components', `${arr[i]}.html`), 'utf-8', (err, dat) => {
       if(err) throw err;
-      console.log(arr[i], dat);
-      let replaceItem = `{{${arr[i]}}}`;
+      let replaceItem = new RegExp(`{{${arr[i]}}}`, 'g');
+      console.log(replaceItem);
       data = data.replace(replaceItem, dat);
+      fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'), data, function (err) {
+        if (err) throw err;});
     });
-    //fs.createReadStream(path.join(__dirname, 'components', `${arr[i]}.html`), 'utf-8');
-    
   }
-
-  console.log("File content after replace:");
-  console.log(data);
-  fs.close(path.join(__dirname, 'project-dist', 'index.html'));
 });
