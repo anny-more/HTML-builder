@@ -5,6 +5,19 @@ const path = require('path');
 fsPromises.mkdir(path.join(__dirname, 'project-dist'), {recursive : true});
 fs.promises.mkdir(path.join(__dirname, 'project-dist', 'assets'), {recursive : true});
 
+
+let string = '';
+
+
+fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'), string, {flag: 'a+'},
+function(err){
+if (err) throw err;
+});
+fsPromises.copyFile(path.join(__dirname, 'template.html'), path.join(__dirname, 'project-dist', 'index.html'));
+
+    
+getTem();
+
 fs.readdir(path.join(__dirname, 'assets'), {withFileTypes: true}, (err, dirs) => {
   if (err) throw err;
   
@@ -46,11 +59,7 @@ fs.readdir(path.join(__dirname, 'components'), {withFileTypes: true}, (err, file
   }
 });
 
-if (!path.join(__dirname, 'project-dist', 'index.html')) {
- fsPromises.copyFile(path.join(__dirname, 'template.html'), path.join(__dirname, 'project-dist', 'index.html'));
-}
-
-
+async function getTem() {
 fs.readFile(path.join(__dirname, 'project-dist', 'index.html'), 'utf-8', function (err, data) {
   if (err)
     return console.log(err);
@@ -66,3 +75,4 @@ fs.readFile(path.join(__dirname, 'project-dist', 'index.html'), 'utf-8', functio
     });
   }
 });
+};
