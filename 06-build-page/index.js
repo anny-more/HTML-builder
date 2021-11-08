@@ -68,7 +68,7 @@ fs.readFile(path.join(__dirname, 'project-dist', 'index.html'), 'utf-8', functio
     fs.readFile(path.join(__dirname, 'components', `${arr[i]}.html`), 'utf-8', (err, dat) => {
       if(err) throw err;
       let replaceItem = new RegExp(`{{${arr[i]}}}`, 'g');
-      console.log(replaceItem);
+      //console.log(replaceItem);
       data = data.replace(replaceItem, dat);
       fs.writeFile(path.join(__dirname, 'project-dist', 'index.html'), data, function (err) {
         if (err) throw err;});
